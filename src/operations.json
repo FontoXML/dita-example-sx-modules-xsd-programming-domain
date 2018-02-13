@@ -1,0 +1,478 @@
+{
+	":toggle-apiname": {
+		"label": "t__API name",
+		"description": "t__Provides the name of an application programming interface.",
+		"steps": {
+			"type": "operation/toggle-inline-frame-element",
+			"data": {
+				"nodeName": "apiname"
+			}
+		}
+	},
+	":toggle-codeph": {
+		"label": "t__Code phrase",
+		"description": "t__Represents a snippet of code within the main flow of text.",
+		"steps": {
+			"type": "operation/toggle-inline-frame-element",
+			"data": {
+				"nodeName": "codeph"
+			}
+		}
+	},
+	":insert-delim": {
+		"label": "t__Delimiter",
+		"description": "t__Represents a character marking the beginning or end of a section in the code.",
+		"alternatives": [
+			":_toggle-delim",
+			":_insert-delim"
+		]
+	},
+	":_toggle-delim": {
+		"steps": {
+			"type": "operation/toggle-inline-frame-element",
+			"data": {
+				"nodeName": "delim"
+			}
+		}
+	},
+	":_insert-delim": {
+		"steps": [
+			{
+				"type": "transform/setContextNodeIdToSelectionAncestorMatchingDitaClass",
+				"data": {
+					"parentDitaTypes": ["topic/figgroup"]
+				}
+			},
+			{
+				"type": "operation/horizontal-insert",
+				"data": {
+					"childNodeStructure": [
+						"delim",
+						[{ "bindTo": "selection", "empty": true }]
+					]
+				}
+			}
+		]
+	},
+	":insert-fragment": {
+		"label": "t__Fragment",
+		"description": "t__Labels a subpart of the syntax.",
+		"steps": [
+			{
+				"type": "transform/setContextNodeIdToSelectionAncestorMatchingDitaClass",
+				"data": {
+					"parentDitaTypes": ["topic/fig", "topic/figgroup"]
+				}
+			},
+			{
+				"type": "operation/horizontal-insert",
+				"data": {
+					"childNodeStructure": [
+						"fragment",
+						[
+							"title",
+							[{ "bindTo": "selection", "empty": true }]
+						]
+					]
+				}
+			}
+		]
+	},
+	":fragment-insert-title": {
+		"label": "t__Add title",
+		"description": "t__A short, descriptive title for the fragment.",
+		"steps": {
+			"type": "operation/horizontal-insert",
+			"data": {
+				"childNodeStructure": [
+					"title",
+					[{ "bindTo": "selection", "empty": true }]
+				]
+			}
+		}
+	},
+	":insert-groupchoice": {
+		"label": "t__Group choice",
+		"description": "t__Groups pieces of syntax together, specifying the user must make a choice which part of the syntax to use.",
+		"steps": [
+			{
+				"type": "transform/setContextNodeIdToSelectionAncestorMatchingDitaClass",
+				"data": {
+					"parentDitaTypes": ["topic/fig", "topic/figgroup"]
+				}
+			},
+			{
+				"type": "operation/horizontal-insert",
+				"data": {
+					"childNodeStructure": [
+						"groupchoice",
+						[{ "bindTo": "selection", "empty": true }]
+					]
+				}
+			}
+		]
+	},
+	":groupchoice-insert-title": {
+		"label": "t__Add title",
+		"description": "t__A short, descriptive title for the group choice.",
+		"steps": {
+			"type": "operation/horizontal-insert",
+			"data": {
+				"childNodeStructure": [
+					"title",
+					[{ "bindTo": "selection", "empty": true }]
+				]
+			}
+		}
+	},
+	":insert-groupcomp": {
+		"label": "t__Group composite",
+		"description": "t__Groups pieces of syntax together, formatted close together.",
+		"steps": [
+			{
+				"type": "transform/setContextNodeIdToSelectionAncestorMatchingDitaClass",
+				"data": {
+					"parentDitaTypes": ["topic/fig", "topic/figgroup"]
+				}
+			},
+			{
+				"type": "operation/horizontal-insert",
+				"data": {
+					"childNodeStructure": [
+						"groupcomp",
+						[{ "bindTo": "selection", "empty": true }]
+					]
+				}
+			}
+		]
+	},
+	":groupcomp-insert-title": {
+		"label": "t__Add title",
+		"description": "t__A short, descriptive title for the group composite.",
+		"steps": {
+			"type": "operation/horizontal-insert",
+			"data": {
+				"childNodeStructure": [
+					"title",
+					[{ "bindTo": "selection", "empty": true }]
+				]
+			}
+		}
+	},
+	":insert-groupseq": {
+		"label": "t__Group sequence",
+		"description": "t__Groups pieces of syntax together in a specific sequence.",
+		"steps": [
+			{
+				"type": "transform/setContextNodeIdToSelectionAncestorMatchingDitaClass",
+				"data": {
+					"parentDitaTypes": ["topic/fig", "topic/figgroup"]
+				}
+			},
+			{
+				"type": "operation/horizontal-insert",
+				"data": {
+					"childNodeStructure": [
+						"groupseq",
+						[{ "bindTo": "selection", "empty": true }]
+					]
+				}
+			}
+		]
+	},
+	":groupseq-insert-title": {
+		"label": "t__Add title",
+		"description": "t__A short, descriptive title for the group sequence.",
+		"steps": {
+			"type": "operation/horizontal-insert",
+			"data": {
+				"childNodeStructure": [
+					"title",
+					[{ "bindTo": "selection", "empty": true }]
+				]
+			}
+		}
+	},
+	":insert-kwd": {
+		"label": "t__Keyword",
+		"description": "t__Represents a keyword within the code.",
+		"alternatives": [
+			":_toggle-kwd",
+			":_insert-kwd"
+		]
+	},
+	":_toggle-kwd": {
+		"steps": {
+			"type": "operation/toggle-inline-frame-element",
+			"data": {
+				"nodeName": "kwd"
+			}
+		}
+	},
+	":_insert-kwd": {
+		"steps": [
+			{
+				"type": "transform/setContextNodeIdToSelectionAncestorMatchingDitaClass",
+				"data": {
+					"parentDitaTypes": ["topic/figgroup"]
+				}
+			},
+			{
+				"type": "operation/horizontal-insert",
+				"data": {
+					"childNodeStructure": [
+						"kwd",
+						[{ "bindTo": "selection", "empty": true }]
+					]
+				}
+			}
+		]
+	},
+	":insert-oper": {
+		"label": "t__Operator",
+		"description": "t__Represents an operation within the code.",
+		"alternatives": [
+			":_toggle-oper",
+			":_insert-oper"
+		]
+	},
+	":_toggle-oper": {
+		"steps": {
+			"type": "operation/toggle-inline-frame-element",
+			"data": {
+				"nodeName": "oper"
+			}
+		}
+	},
+	":_insert-oper": {
+		"steps": [
+			{
+				"type": "transform/setContextNodeIdToSelectionAncestorMatchingDitaClass",
+				"data": {
+					"parentDitaTypes": ["topic/figgroup"]
+				}
+			},
+			{
+				"type": "operation/horizontal-insert",
+				"data": {
+					"childNodeStructure": [
+						"oper",
+						[{ "bindTo": "selection", "empty": true }]
+					]
+				}
+			}
+		]
+	},
+	":toggle-option": {
+		"label": "t__Option",
+		"description": "t__Describes an option that can be used to modify a command.",
+		"steps": {
+			"type": "operation/toggle-inline-frame-element",
+			"data": {
+				"nodeName": "option"
+			}
+		}
+	},
+	":toggle-parmname": {
+		"label": "t__Parameter name",
+		"description": "t__Represents the name of a parameter.",
+		"steps": {
+			"type": "operation/toggle-inline-frame-element",
+			"data": {
+				"nodeName": "parmname"
+			}
+		}
+	},
+	":contextual-insert-repsep": {
+		"label": "t__Add repeat seperator",
+		"description": "t__Represents a group of syntax elements that can or should be repeated.",
+		"steps": [
+			{
+				"type": "operation/horizontal-insert",
+				"data": {
+					"childNodeStructure": [
+						"repsep",
+						[{ "bindTo": "selection", "empty": true }]
+					]
+				}
+			}
+		]
+	},
+	":insert-sep": {
+		"label": "t__Seperator",
+		"description": "t__Represents a separator character within the code.",
+		"alternatives": [
+			":_toggle-sep",
+			":_insert-sep"
+		]
+	},
+	":_toggle-sep": {
+		"steps": {
+			"type": "operation/toggle-inline-frame-element",
+			"data": {
+				"nodeName": "sep"
+			}
+		}
+	},
+	":_insert-sep": {
+		"steps": [
+			{
+				"type": "transform/setContextNodeIdToSelectionAncestorMatchingDitaClass",
+				"data": {
+					"parentDitaTypes": ["topic/figgroup"]
+				}
+			},
+			{
+				"type": "operation/horizontal-insert",
+				"data": {
+					"childNodeStructure": [
+						"sep",
+						[{ "bindTo": "selection", "empty": true }]
+					]
+				}
+			}
+		]
+	},
+	":insert-synblk": {
+		"label": "t__Syntax block",
+		"description": "t__Organizes small pieces of a syntax definition into a larger piece.",
+		"steps": [
+			{
+				"type": "transform/setContextNodeIdToSelectionAncestorMatchingDitaClass",
+				"data": {
+					"parentDitaTypes": ["topic/fig", "topic/figgroup"]
+				}
+			},
+			{
+				"type": "operation/horizontal-insert",
+				"data": {
+					"childNodeStructure": [
+						"synblk",
+						[
+							"title",
+							[{ "bindTo": "selection", "empty": true }]
+						]
+					]
+				}
+			}
+		]
+	},
+	":synblk-insert-title": {
+		"label": "t__Add title",
+		"description": "t__A short, descriptive title for the syntax block.",
+		"steps": {
+			"type": "operation/horizontal-insert",
+			"data": {
+				"childNodeStructure": [
+					"title",
+					[{ "bindTo": "selection", "empty": true }]
+				]
+			}
+		}
+	},
+	":toggle-synph": {
+		"label": "t__Syntax phrase",
+		"description": "t__Contains syntax definition elements.",
+		"steps": {
+			"type": "operation/toggle-inline-frame-element",
+			"data": {
+				"nodeName": "synph"
+			}
+		}
+	},
+	":insert-synnote": {
+		"label": "t__Syntax note",
+		"description": "t__Contains a note (similar to a footnote) within a syntax definition group.",
+		"steps": [
+			{
+				"type": "transform/setContextNodeIdToSelectionAncestorMatchingDitaClass",
+				"data": {
+					"parentDitaTypes": ["topic/fig", "topic/figgroup"]
+				}
+			},
+			{
+				"type": "operation/horizontal-insert",
+				"data": {
+					"childNodeStructure": [
+						"synnote",
+						[{ "bindTo": "selection", "empty": true }]
+					]
+				}
+			}
+		]
+	},
+	":insert-syntaxdiagram": {
+		"label": "t__Syntax diagram",
+		"description": "t__Contains all markup that compose a syntax definition.",
+		"steps": {
+			"type": "operation/vertical-insert",
+			"data": {
+				"childNodeStructure": [
+					"syntaxdiagram",
+					[
+						"title",
+						[{ "bindTo": "selection", "empty": true }]
+					]
+				]
+			}
+		}
+	},
+	":syntaxdiagram-insert-title": {
+		"label": "t__Add title",
+		"description": "t__A short, descriptive title for the syntax diagram.",
+		"steps": {
+			"type": "operation/horizontal-insert",
+			"data": {
+				"childNodeStructure": [
+					"title",
+					[{ "bindTo": "selection", "empty": true }]
+				]
+			}
+		}
+	},
+	":contextual-delete-syntaxdiagram": {
+		"label": "t__Remove syntax diagram",
+		"description": "t__Remove this syntax diagram.",
+		"icon": "times",
+		"steps": [
+			{
+				"type": "operation/delete-node"
+			}
+		]
+	},
+	":insert-var": {
+		"label": "t__Variable",
+		"description": "t__Represents a variable within the code.",
+		"alternatives": [
+			":_toggle-var",
+			":_insert-var"
+		]
+	},
+	":_toggle-var": {
+		"steps": {
+			"type": "operation/toggle-inline-frame-element",
+			"data": {
+				"nodeName": "var"
+			}
+		}
+	},
+	":_insert-var": {
+		"steps": [
+			{
+				"type": "transform/setContextNodeIdToSelectionAncestorMatchingDitaClass",
+				"data": {
+					"parentDitaTypes": ["topic/figgroup"]
+				}
+			},
+			{
+				"type": "operation/horizontal-insert",
+				"data": {
+					"childNodeStructure": [
+						"var",
+						[{ "bindTo": "selection", "empty": true }]
+					]
+				}
+			}
+		]
+	}
+}
