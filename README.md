@@ -14,3 +14,7 @@ https://github.com/fontoxml/dita-example-schema-bundle):
 - Copy or clone this repository into your editor's `packages` directory.
 
 - Create a dependency on the package from the `fonto-manifest.json` file in your schema shell package.
+
+## Syntaxdiagram not configured
+
+The element syntaxdiagram and the elements that are used within are NOT configured in this package.

@@ -7,9 +7,8 @@ define([
 	'fontoxml-families/configureAsLine',
 	'fontoxml-families/configureAsRemoved',
 	'fontoxml-families/configureAsStructure',
-	'fontoxml-families/configureContextualOperations',
+	'fontoxml-families/createElementMenuButtonWidget',
 	'fontoxml-families/createMarkupLabelWidget',
-	'fontoxml-families/createNumberingWidget',
 	'fontoxml-localization/t'
 ], function (
 	configureAsBlock,
@@ -20,11 +19,10 @@ define([
 	configureAsLine,
 	configureAsRemoved,
 	configureAsStructure,
-	configureContextualOperations,
+	createElementMenuButtonWidget,
 	createMarkupLabelWidget,
-	createNumberingWidget,
 	t
-	) {
+) {
 	'use strict';
 
 	return function configureSxModule (sxModule) {
@@ -41,22 +39,20 @@ define([
 		//     DITA programming domain, a special set of DITA elements designed to document programming tasks,
 		//     concepts and reference information. Category: Programming elements
 		configureAsFrameWithBreakableBlock(sxModule, 'self::codeblock', t('code block'), {
+			backgroundColor: 'brown',
 			contextualOperations: [
 				{ name: ':contextual-unwrap-codeblock' }
 			],
-			withNewlineBreakToken: true,
 			emptyElementPlaceholderText: t('type the code'),
-			visualization: {
-				backgroundColor: 'brown',
-				blockHeaderLeft: [
-					createMarkupLabelWidget()
-				],
-				isMonospaced: true
-			}
+			isMonospaced: true,
+			withNewlineBreakToken: true,
+			blockHeaderLeft: [
+				createMarkupLabelWidget()
+			],
+			blockOutsideAfter: [
+				createElementMenuButtonWidget()
+			]
 		});
-
-		// attributes are not correctly validated yet
-		configureContextualOperations(sxModule, 'self::codeblock[@expanse or @frame or @scale or @spectitle or @xml:space]', []);
 
 		// codeph
 		//     The code phrase (<codeph>) element represents a snippet of code within the main flow of text. The
@@ -64,9 +60,7 @@ define([
 		//     programming domain, a special set of DITA elements designed to document programming tasks, concepts
 		//     and reference information. Category: Programming elements
 		configureAsInlineFrame(sxModule, 'self::codeph', t('code phrase'), {
-			visualization: {
-				isMonospaced: true
-			}
+			isMonospaced: true
 		});
 
 		// coderef
@@ -89,18 +83,7 @@ define([
 		//     allows breaking out logical chunks of a large syntax diagram into named fragments. This element is
 		//     part of the DITA programming domain, a special set of DITA elements designed to document programming
 		//     tasks, concepts and reference information. Category: Programming elements
-		configureAsFrame(sxModule, 'self::fragment', t('fragment'), {
-			contextualOperations: [
-				{ name: ':fragment-insert-title' }
-			],
-			defaultTextContainer: 'groupseq',
-			ignoredForNavigationNextToSelector: 'false()',
-			visualization: {
-				blockHeaderLeft: [
-					createMarkupLabelWidget()
-				]
-			}
-		});
+		configureAsRemoved(sxModule, 'self::fragment', t('fragment'));
 
 		// fragref
 		//     The fragment reference (<fragref>) element provides a logical reference to a syntax definition
@@ -116,20 +99,7 @@ define([
 		//     must make a choice about which part of the syntax to use. Groups are often nested. This element is
 		//     part of the DITA programming domain, a special set of DITA elements designed to document programming
 		//     tasks, concepts and reference information. Category: Programming elements
-		configureAsFrame(sxModule, 'self::groupchoice', t('group choice'), {
-			contextualOperations: [
-				{ name: ':groupchoice-insert-title' },
-				{ name: ':contextual-insert-repsep' }
-			],
-			defaultTextContainer: 'kwd',
-			ignoredForNavigationNextToSelector: 'false()',
-			visualization: {
-				blockHeaderLeft: [
-					createMarkupLabelWidget()
-				],
-				expression: 'compact'
-			}
-		});
+		configureAsRemoved(sxModule, 'self::groupchoice', t('group choice'));
 
 		// groupcomp
 		//     The <groupcomp> element is part of the subset of elements that define syntax diagrams in DITA. A
@@ -138,20 +108,7 @@ define([
 		//     by a horizontal or vertical line, which is the usual formatting method. This element is part of the
 		//     DITA programming domain, a special set of DITA elements designed to document programming tasks,
 		//     concepts and reference information. Category: Programming elements
-		configureAsFrame(sxModule, 'self::groupcomp', t('group composite'), {
-			contextualOperations: [
-				{ name: ':groupcomp-insert-title' },
-				{ name: ':contextual-insert-repsep' }
-			],
-			defaultTextContainer: 'kwd',
-			ignoredForNavigationNextToSelector: 'false()',
-			visualization: {
-				blockHeaderLeft: [
-					createMarkupLabelWidget()
-				],
-				expression: 'compact'
-			}
-		});
+		configureAsRemoved(sxModule, 'self::groupcomp', t('group composite'));
 
 		// groupseq
 		//     The <groupseq> element is part of the subset of elements that define syntax diagrams in DITA. A
@@ -160,20 +117,7 @@ define([
 		//     sequence, as delimited by the <groupseq> element. This element is part of the DITA programming
 		//     domain, a special set of DITA elements designed to document programming tasks, concepts and
 		//     reference information. Category: Programming elements
-		configureAsFrame(sxModule, 'self::groupseq', t('group sequence'), {
-			contextualOperations: [
-				{ name: ':groupseq-insert-title' },
-				{ name: ':contextual-insert-repsep' }
-			],
-			defaultTextContainer: 'kwd',
-			ignoredForNavigationNextToSelector: 'false()',
-			visualization: {
-				blockHeaderLeft: [
-					createMarkupLabelWidget()
-				],
-				expression: 'compact'
-			}
-		});
+		configureAsRemoved(sxModule, 'self::groupseq', t('group sequence'));
 
 		// kwd
 		//     The <kwd> element defines a keyword within a syntax diagram. A keyword must be typed or output,
@@ -181,9 +125,7 @@ define([
 		//     part of the DITA programming domain, a special set of DITA elements designed to document programming
 		//     tasks, concepts and reference information. Category: Programming elements
 		configureAsInlineFrame(sxModule, 'self::kwd', t('keyword'), {
-			visualization: {
-				isMonospaced: true
-			}
+			isMonospaced: true
 		});
 
 		// oper
@@ -210,12 +152,13 @@ define([
 			contextualOperations: [
 				{ name: ':contextual-delete-parml' }
 			],
-			tabNavigationItemSelector: 'name() = ("pt", "pd")',
-			visualization: {
-				blockHeaderLeft: [
-					createMarkupLabelWidget()
-				]
-			}
+			tabNavigationItemSelector: 'self::pt or self::pd',
+			blockHeaderLeft: [
+				createMarkupLabelWidget()
+			],
+			blockOutsideAfter: [
+				createElementMenuButtonWidget()
+			]
 		});
 
 		// parmname
@@ -237,9 +180,7 @@ define([
 		configureAsFrame(sxModule, 'self::pd[count(preceding-sibling::* | following-sibling::*) > 1]', t('definition'), {
 			defaultTextContainer: 'p',
 			emptyElementPlaceholderText: t('type the definition'),
-			visualization: {
-				showWhen: 'has-focus'
-			}
+			showWhen: 'has-focus'
 		});
 
 		// p in pd
@@ -258,15 +199,13 @@ define([
 				{ query: './pd', width: 2 }
 			],
 			contextualOperations: [
-				{ name: ':plentry-insert-pt' },
-				{ name: ':plentry-insert-pd' },
-				{ name: ':contextual-insert-plentry--above', hideIn: ['breadcrumbs-menu'] },
-				{ name: ':contextual-insert-plentry--below', hideIn: ['breadcrumbs-menu'] },
+				{ name: ':plentry-insert-pt', hideIn: ['breadcrumbs-menu'] },
+				{ name: ':plentry-insert-pd', hideIn: ['breadcrumbs-menu'] },
+				{ name: ':contextual-insert-plentry--above' },
+				{ name: ':contextual-insert-plentry--below' },
 				{ name: ':contextual-delete-plentry' }
 			],
-			visualization: {
-				borders: true
-			}
+			borders: true
 		});
 
 		// pt
@@ -279,9 +218,7 @@ define([
 
 		configureAsFrame(sxModule, 'self::pt[count(preceding-sibling::* | following-sibling::*) > 1]', t('parameter'), {
 			emptyElementPlaceholderText: t('type the parameter'),
-			visualization: {
-				showWhen: 'has-focus'
-			}
+			showWhen: 'has-focus'
 		});
 
 		// repsep
@@ -290,7 +227,7 @@ define([
 		//     (+), this indicates that the character must be used between repetitions of the syntax elements. This
 		//     element is part of the DITA programming domain, a special set of DITA elements designed to document
 		//     programming tasks, concepts and reference information. Category: Programming elements
-		configureAsInlineFrame(sxModule, 'self::repsep', t('repeat separator'));
+		configureAsRemoved(sxModule, 'self::repsep', t('repeat separator'));
 
 		// sep
 		//     The separator (<sep>) element defines a separator character that is inline with the content of a
@@ -304,18 +241,7 @@ define([
 		//     piece. The syntax block element is part of the DITA programming domain, a special set of DITA
 		//     elements designed to document programming tasks, concepts and reference information. Category:
 		//     Programming elements
-		configureAsFrame(sxModule, 'self::synblk', t('syntax block'), {
-			contextualOperations: [
-				{ name: ':synblk-insert-title' }
-			],
-			defaultTextContainer: 'groupseq',
-			ignoredForNavigationNextToSelector: 'false()',
-			visualization: {
-				blockHeaderLeft: [
-					createMarkupLabelWidget()
-				]
-			}
-		});
+		configureAsRemoved(sxModule, 'self::synblk', t('syntax block'));
 
 		// synnote
 		//     The syntax note (<synnote>) element contains a note (similar to a footnote) within a syntax
@@ -324,18 +250,7 @@ define([
 		//     at the bottom of the page. The syntax block element is part of the DITA programming domain, a
 		//     special set of DITA elements designed to document programming tasks, concepts and reference
 		//     information. Category: Programming elements
-		configureAsFrame(sxModule, 'self::synnote', t('syntax note'), {
-			emptyElementPlaceholderText: t('type the note'),
-			visualization: {
-				blockBefore: [
-					createNumberingWidget('self::synnote', {
-						containerSelectorOrNodeSpec: 'self::syntaxdiagram',
-						prefix: t('note') + ' [',
-						suffix: ']'
-					})
-				]
-			}
-		});
+		configureAsRemoved(sxModule, 'self::synnote', t('syntax note'));
 
 		// synnoteref
 		//     The syntax note (<synnoteref>) reference element references a syntax note element (<synnote>) that
@@ -363,19 +278,7 @@ define([
 		//     presentation may differ depending on the output media. The syntax diagram element is part of the
 		//     DITA programming domain, a special set of DITA elements designed to document programming tasks,
 		//     concepts and reference information. Category: Programming elements
-		configureAsFrame(sxModule, 'self::syntaxdiagram', t('syntax diagram'), {
-			contextualOperations: [
-				{ name: ':syntaxdiagram-insert-title' },
-				{ name: ':contextual-delete-syntaxdiagram' }
-			],
-			defaultTextContainer: 'groupseq',
-			ignoredForNavigationNextToSelector: 'false()',
-			visualization: {
-				blockHeaderLeft: [
-					createMarkupLabelWidget()
-				]
-			}
-		});
+		configureAsRemoved(sxModule, 'self::syntaxdiagram', t('syntax diagram'));
 
 		// var
 		//     Within a syntax diagram, the <var> element defines a variable for which the user must supply
@@ -383,9 +286,7 @@ define([
 		//     element is part of the DITA programming domain, a special set of DITA elements designed to document
 		//     programming tasks, concepts and reference information. Category: Programming elements
 		configureAsInlineFrame(sxModule, 'self::var', t('variable'), {
-			visualization: {
-				slant: 'italic'
-			}
+			slant: 'italic'
 		});
 	};
 });
